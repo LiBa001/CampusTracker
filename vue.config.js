@@ -12,5 +12,10 @@ module.exports = {
             display: 'standalone',
             description: 'A utility to simplify Covid-19 related contact tracing on the KIT Campus. Creates a list of your used rooms.',
         },
+
+        // configure the workbox plugin
+        workboxPluginMode: 'GenerateSW',
+        workboxOptions: {}
+
     },
 }

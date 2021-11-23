@@ -34,7 +34,9 @@ export const roomsDb = {
         return this.insert('rooms', rooms);
     },
     getRoom(url) {
-        return this.get('rooms', url);
+        return this.db.then(db => {
+            return db.get('rooms', url);
+        })
     },
     putRoom(room) {
         return this.db.then(db => {
