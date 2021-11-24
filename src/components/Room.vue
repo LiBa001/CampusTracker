@@ -7,7 +7,10 @@
     <input type="text" v-model="name">
   </form>
 
-  <button v-if="!editing" class="btn btn-secondary" @click="editing=true"><i class="bi-pencil-fill"></i></button>
+  <div v-if="!editing">
+    <button class="btn btn-secondary" @click="editing=true"><i class="bi-pencil-fill"></i></button>
+    <button class="btn btn-danger" @click="deleteRoom"><i class="bi-trash-fill"></i></button>
+  </div>
   <div v-else class="editMenu">
     <button class="btn btn-danger" @click="cancelEdit"><i class="bi-x-lg"></i></button>
     <button class="btn btn-success" @click="confirmEdit"><i class="bi-check-lg"></i></button>
@@ -21,6 +24,7 @@ import {roomsDb} from "@/rooms-db";
 export default {
   name: "Room",
   props: ["data"],
+  emits: ['delete'],
   data() {
     return {
       url: this.data.url,
@@ -41,6 +45,12 @@ export default {
             this.name = data.name;
             this.editing = false;
           })
+    },
+    deleteRoom() {
+      const timeoutId = setTimeout(async () => {
+        await roomsDb.delete(this.url);
+      }, 5000);
+     this.$emit('delete', timeoutId); 
     }
   }
 }
