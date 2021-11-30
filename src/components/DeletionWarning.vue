@@ -1,5 +1,5 @@
 <template>
-  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+  <div class="toast" :id="timeoutId"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
     <div class="d-flex">
       <div class="toast-body">
         <slot></slot>
@@ -11,13 +11,23 @@
 </template>
 
 <script>
+import { Toast } from "bootstrap";
+
 export default {
   name: 'DeletionWarning',
-  props: ['timeoutId'],
+  props: ['timeoutId', 'url'],
+  emits: ['undo'],
   methods: {
     undoDeletion() {
       clearTimeout(this.timeoutId);
+      this.$emit('undo', this.url);
     }
+  },
+  mounted() {
+    const element = document.getElementById(this.timeoutId);
+    const toast = new Toast(element);
+    console.log(Toast, toast);
+    toast.show();
   }
 }
 </script>

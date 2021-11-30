@@ -45,8 +45,8 @@ export const roomsDb = {
     },
     deleteRoom(url) {
         return this.db.then(db => {
-	    return db.delete('rooms', url);
-	})
+            return db.delete('rooms', url);
+        })
     }
 
 }

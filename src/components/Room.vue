@@ -47,10 +47,11 @@ export default {
           })
     },
     deleteRoom() {
-      const timeoutId = setTimeout(async () => {
-        await roomsDb.delete(this.url);
+      const timeoutId = setTimeout(() => {
+        roomsDb.deleteRoom(this.url);
+        console.log('timeout expired');
       }, 5000);
-     this.$emit('delete', timeoutId); 
+     this.$emit('delete', this.url, timeoutId); 
     }
   }
 }

@@ -6,7 +6,7 @@
   </li>
 </ul>
 <div class="toast-container">
-  <DeletionWarning v-for="tId in warnings" :timeoutId="tId">Deleted a room.</DeletionWarning>
+  <DeletionWarning v-for="w in warnings" :timeoutId="w.tId" :url="w.url" v-bind:key="w.tId">Deleted a room.</DeletionWarning>
 </div>
 </div>
 </template>
@@ -14,10 +14,11 @@
 <script>
 import {roomsDb} from "@/rooms-db";
 import Room from "@/components/Room";
+import DeletionWarning from "@/components/DeletionWarning";
 
 export default {
   name: "RoomList",
-  components: {Room},
+  components: {Room, DeletionWarning},
   data() {
     return {
       rooms: [],
@@ -25,11 +26,16 @@ export default {
     }
   },
   mounted() {
-    roomsDb.getRooms().then((result) => this.rooms = result);
+    roomsDb.getRooms().then(rooms => this.rooms = rooms);
   },
   methods: {
-    deletionWarn(timeoutId) {
-      this.warnings.append(timeoutId);
+    deletionWarn(url, timeoutId) {
+      this.warnings.push({timeoutId, url});
+      this.rooms.splice(url, 1);
+
+    },
+    undoDelete(url) {
+      roomsDb.getRoom(url).then(room => this.rooms.push(room));
     }
   }
 }
