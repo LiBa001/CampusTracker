@@ -31,6 +31,9 @@ export default {
       if (!decodedString) {
         return  // false positive
       }
+      if (decodedString.startsWith('URL:')) {
+        decodedString = decodedString.slice(4);
+      }
 
       roomsDb.putRoom({url: decodedString})
       if (Cookies.get("openLink")) {
