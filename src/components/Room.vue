@@ -49,7 +49,6 @@ export default {
     deleteRoom() {
       const timeoutId = setTimeout(() => {
         roomsDb.deleteRoom(this.url);
-        console.log('timeout expired');
       }, 5000);
      this.$emit('delete', this.url, timeoutId); 
     }

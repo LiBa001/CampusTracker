@@ -6,7 +6,7 @@
   </li>
 </ul>
 <div class="toast-container">
-  <DeletionWarning v-for="w in warnings" :timeoutId="w.tId" :url="w.url" v-bind:key="w.tId">Deleted a room.</DeletionWarning>
+  <DeletionWarning v-for="w in warnings" :timeoutId="w.timeoutId" :url="w.url" :key="w.timeoutId" @undo="undoDelete">Deleted a room.</DeletionWarning>
 </div>
 </div>
 </template>
@@ -31,8 +31,8 @@ export default {
   methods: {
     deletionWarn(url, timeoutId) {
       this.warnings.push({timeoutId, url});
+      setTimeout(() => {this.warnings.splice(this.warnings.indexOf({timeoutId, url}), 1)}, 5000); 
       this.rooms.splice(url, 1);
-
     },
     undoDelete(url) {
       roomsDb.getRoom(url).then(room => this.rooms.push(room));
@@ -42,5 +42,9 @@ export default {
 </script>
 
 <style scoped>
-
+.toast-container {
+  position: absolute;
+  bottom: 1em;
+  right: 0.5em;
+}
 </style>

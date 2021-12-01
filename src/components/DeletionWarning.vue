@@ -3,7 +3,7 @@
     <div class="d-flex">
       <div class="toast-body">
         <slot></slot>
-        <button type="button" class="btn btn-secondary btn-sm" @click="undoDeletion">Undo</button>
+        <button type="button" class="btn btn-secondary btn-sm" @click="undoDeletion" data-bs-dismiss="toast">Undo</button>
       </div>
       <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
@@ -26,7 +26,6 @@ export default {
   mounted() {
     const element = document.getElementById(this.timeoutId);
     const toast = new Toast(element);
-    console.log(Toast, toast);
     toast.show();
   }
 }
